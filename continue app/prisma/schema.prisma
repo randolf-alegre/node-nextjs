@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Owner {
+  id String @id @default(uuid())
+  name String
+  email String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Product Product[]
+}
+
+model Brand {
+  id String @id @default(uuid())
+  name String
+  Product Product[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id String @id @default(uuid())
+  name String
+  Product Product[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Organization {
+  id String @id @default(uuid())
+  name String
+  Product Product[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id String @id @default(uuid())
+  additionalProductInformation String
+  additionalProductVariants String
+  brand Brand @relation(fields: [brandId], references: [id])
+  brandId String
+  category Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+  colours String
+  condition String
+  insertTime DateTime
+  isDeleted Boolean
+  isLocked Boolean
+  isVisible Boolean
+  marketStatus String
+  originOrganisationOrderId String
+  organisationDescription String
+  organisationDescriptionHtml String
+  organization Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  owner Owner @relation(fields: [ownerid], references: [id])
+  ownerid String
+  organisationImageNames String
+  organisationProductType String
+  originLineItemId String
+  originProductId String
+  purchaseTime DateTime @default(now())
+  rrp Int
+  size String
+  title String
+  value Int
+  engagementChecks String
+  marketplaceOffers String
+  payoutOption String
+  shippingLabelCost Int?
+  parcelSize String
+}
